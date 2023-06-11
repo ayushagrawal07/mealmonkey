@@ -24,6 +24,12 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="btn bg-dark text-white mx-1 nav-link active " aria-current="page" to="/">Home</Link>
               </li>
+            {/* {(localStorage.getItem("authToken"))?
+            <li classname="nav-item">
+              <Link className="btn bg-dark text-white mx-1 nav-link active " aria-current="page" to="/myOrderData">My Order</Link>
+            </li>
+            : ""
+          }   */}
               
 
 

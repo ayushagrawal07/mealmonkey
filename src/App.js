@@ -9,7 +9,9 @@ import {
 } from "react-router-dom";
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
+
 import { CartProvider } from './components/ContextReducer';
+import MyOrder from './screens/MyOrder';
 
 
 
@@ -23,7 +25,7 @@ function App() {
           <Route exact path='/login' element={<Login />} />
          
           <Route exact path='/CreateUser' element={<SignUp />} />
-          
+          <Route exact path='/myOrderData' element={<MyOrder />} />
         </Routes>
       </div>
     </Router>

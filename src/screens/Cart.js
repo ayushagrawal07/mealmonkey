@@ -1,12 +1,18 @@
 import React from 'react'
+import axios from 'axios'
+
+
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import trash from "../trash.svg"
+
 const xy={
   overflow:'scroll',
   height:'500px'
   
 
  }
+ 
+
 
 export default function Cart() {
   let data = useCart();
@@ -18,6 +24,50 @@ export default function Cart() {
       </div>
     )
   } 
+  const handleOpenRazorpay=async(data)=>{
+    const options={
+      key :'rzp_test_xYfAJoeJTqF0sK',
+      amount:Number(data.amount),
+      currency:data.currency,
+      name:'mealmonkey',
+      description : 'xyz',
+      order_id : data.id,
+handler:function(response){
+  
+
+  console.log(response,"53")
+  axios.post('http://localhost:5000/verify',{response:response})
+  .then(res=>{
+    handleCheckOut()
+    console.log(res,"56")
+
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+
+}
+    }
+      const rzp=new window.Razorpay(options)
+      rzp.open()
+    
+  }
+  const handlePayment=async(amount)=>{
+    const data={amount:amount}
+    axios.post ('http://localhost:5000/orders',data)
+    .then(res=>{
+      console.log(res.data,"64")
+      handleOpenRazorpay(res.data.data)
+      
+
+      
+
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+     
+  }
   // const handleRemove = (index)=>{
   //   console.log(index)
   //   dispatch({type:"REMOVE",index:index})
@@ -75,7 +125,7 @@ export default function Cart() {
         </table>
         <div><h1 className='fs-2 text-white'>Total Price: {totalPrice}/-</h1></div>
         <div>
-          <button className='btn bg-success mt-5 ' onClick={handleCheckOut} > Check Out </button>
+          <button className='btn bg-success mt-5 ' onClick={()=> handlePayment(totalPrice)} >Pay Now </button>
         </div>
       </div>
 
